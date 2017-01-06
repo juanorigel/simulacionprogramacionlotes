@@ -1,0 +1,318 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<conio.h>
+#include<math.h>
+#include<string.h>
+#include<windows.h>
+#define TAM 40
+struct datos{
+    char nombreprog[40],operador[10];
+    int operando1;
+    int operando2;
+    int id;
+    int resultado;
+    int tiempo;
+    int pos;
+    int tt;
+    int tr;
+
+
+}lotes[TAM];
+
+
+
+void ingreso(int l)
+{
+    int numerol,i,menuope,provisional,b;
+    numerol=l;
+
+
+    for(i=0;i<numerol;i++)
+    {
+        fflush(stdin);
+        printf("Ingrese el nombre del programador\n");
+        gets(lotes[i].nombreprog);
+         printf("Dame el tiempo estimado\n");
+    scanf("%i",&lotes[i].tiempo);
+    do
+    {
+        if(lotes[i].tiempo<=0)
+    {
+        printf("Tiempo invalido\n");
+        printf("Ingreselo de nuevo\n");
+        scanf("%i",&lotes[i].tiempo);
+    }
+
+     }while(lotes[i].tiempo<=0);
+    printf("Dame el id\n");
+    scanf("%i",&provisional);
+         for(b=0;b<=i;b++)
+        {
+            do
+            if(provisional == lotes[b].id)
+            {
+                printf("Numero ID repetido, intente con otro: ");
+                scanf("%d",&provisional);
+            }
+            while(provisional==lotes[b].id);
+        }
+
+        lotes[i].id=provisional;
+
+        printf("Que operacion desea hacer\n");
+        printf("1.-Suma\n");
+        printf("2.-Resta\n");
+        printf("3.-Multiplicacion\n");
+        printf("4.-Division\n");
+        printf("5.-Residuo\n");
+        printf("6.-Raiz Cuadrada\n");
+        scanf("%d",&menuope);
+        switch(menuope)
+        {
+
+        case 1:
+            printf("Dame dos numeros para la operacion\n");
+            scanf("%i",&lotes[i].operando1);
+            scanf("%i",&lotes[i].operando2);
+            lotes[i].resultado=lotes[i].operando1+lotes[i].operando2;
+            strcpy(lotes[i].operador,"+");
+             system("cls");
+            break;
+        case 2:
+            printf("Dame dos numeros para la operacion\n");
+            scanf("%i",&lotes[i].operando1);
+            scanf("%i",&lotes[i].operando2);
+            lotes[i].resultado=lotes[i].operando1-lotes[i].operando2;
+            strcpy(lotes[i].operador,"-");
+             system("cls");
+            break;
+        case 3:
+                   printf("Dame dos numeros para la operacion\n");
+            scanf("%i",&lotes[i].operando1);
+            scanf("%i",&lotes[i].operando2);
+            lotes[i].resultado=lotes[i].operando1*lotes[i].operando2;
+            strcpy(lotes[i].operador,"*");
+             system("cls");
+            break;
+        case 4:
+                   printf("Dame dos numeros para la operacion\n");
+            scanf("%i",&lotes[i].operando1);
+            scanf("%i",&lotes[i].operando2);
+           do{
+            if(lotes[i].operando2==0)
+            {
+                printf("Error no se realizar la operacion vuelva a dar el segundo numero\n");
+                scanf("%d",&lotes[i].operando2);
+
+            }
+
+            }while(lotes[i].operando2==0);
+
+
+                lotes[i].resultado=lotes[i].operando1/lotes[i].operando2;
+                strcpy(lotes[i].operador,"/");
+                 system("cls");
+            break;
+        case 5:
+             printf("Dame dos numeros para la operacion\n");
+             scanf("%i",&lotes[i].operando1);
+             scanf("%i",&lotes[i].operando2);
+            do
+            {
+             if(lotes[i].operando2==0)
+             {
+                 printf("Error en la operacion dame de nuevo el segundo numero\n");
+                 scanf("%d",&lotes[i].operando2);
+             }
+
+             }while(lotes[i].operando2==0);
+
+
+                 lotes[i].resultado=lotes[i].operando1%lotes[i].operando2;
+                 strcpy(lotes[i].operador,"%%");
+              system("cls");
+            break;
+        case 6:
+            printf("Dame el numero para la operacion\n");
+            scanf("%i",&lotes[i].operando1);
+            do{
+            if(lotes[i].operando1<=0)
+            {
+                printf("\nError en el operando vuelva a dar el numero\n");
+                scanf("%i",&lotes[i].operando1);
+
+            }
+            }while(lotes[i].operando1<=0);
+
+                lotes[i].resultado=sqrt(lotes[i].operando1);
+                strcpy(lotes[i].operador,"raiz");
+
+
+             system("cls");
+            break;
+
+         system("cls");
+
+}
+
+        lotes[i].tr=lotes[i].tiempo;
+        lotes[i].tt=0;
+        lotes[i].pos=1;
+
+}
+}
+
+
+int calcular_tiempoGlobal(){
+    int total=0;
+    int c;
+
+    for(c=0;c<TAM;c++)
+        total=total+lotes[c].tiempo;
+
+    return total;
+    }
+
+int num_lotes(int proceso){
+    int r;
+    float aux;
+    aux=(proceso/4);
+    if(aux<1) r=0;
+    if(aux>=1 && aux<2) r=1;
+    if(aux>=2 && aux<3) r=2;
+    if(aux>=3 && aux<4) r=3;
+    if(aux>=4 && aux<=5) r=4;
+
+    return r;
+    }
+
+
+int main()
+{
+    int lotes_pendientes=0,tiempo_total=0,reloj=0,x=0,temp=0;
+    int contadorl,j,i;
+
+
+        printf("Bienvenido al sistema de captura \n");
+        printf("Cuantos procesos va a ingresar\n");
+        scanf("%d",&contadorl);
+        ingreso(contadorl );
+        tiempo_total=calcular_tiempoGlobal();
+       lotes_pendientes=num_lotes(contadorl);
+       system("cls");
+
+       while(reloj<=tiempo_total)
+       {
+
+           printf("Lotes Pendientes: %d\n",lotes_pendientes);
+          printf("EN ESPERA");
+          printf("\t\tEN EJECUCION");
+          printf("\t\tTERMINADOS\n\n");
+
+
+          //TERMINADOS
+          if(x >= lotes[temp].tiempo)
+             lotes[temp].pos=3;
+
+          for(j=0;j<TAM;j++){
+              if(lotes[j].pos == 3){
+                 printf("\t\t\t\t\t\tID: %d\n",lotes[j].id);
+                 printf("\t\t\t\t\t\t%s\n",lotes[j].nombreprog);
+                 printf("\t\t\t\t\t\t%d %s %d= %d\n",lotes[j].operando1,lotes[j].operador,lotes[j].operando2,lotes[j].resultado);
+                 printf("\t\t\t\t\t\tTiempo: %d\n",lotes[j].tiempo);
+              }
+          }
+
+
+
+
+       if(x == lotes[temp].tiempo){
+             temp++;
+             if(temp==4 || temp==8 || temp==12 || temp==16) lotes_pendientes--;
+             x=0;
+          }
+
+
+
+
+//EJECUCION
+
+          if(x < lotes[temp].tiempo){
+             if(lotes[temp].pos == 1){
+                printf("\t\t\tID: %d\n",lotes[temp].id);
+                printf("\t\t\t%s\n",lotes[temp].nombreprog);
+                printf("\t\t\t%d %s %d\n",lotes[temp].operando1,lotes[temp].operador,lotes[temp].operando2);
+                printf("\t\t\tTiempo total: %d\n",lotes[temp].tt);
+                lotes[temp].tt++;
+                printf("\t\t\tTiempo restante: %d\n",lotes[temp].tr);
+                lotes[temp].tr--;
+
+             }
+          }
+
+        //lotes en espera
+        if(temp>=0 && temp<4){
+             for( i=0;i<3;i++){
+                 if(lotes[i].pos == 1)
+                    if(lotes[i+1].pos == 1){
+
+                       printf("Nombre: %s",lotes[i+1].nombreprog);
+                       printf("Tiempo: %d\n",lotes[i+1].tiempo);
+                    }
+              }
+              Sleep(1000);
+          }
+          else if(temp>=4 && temp<8){
+                  for(i=4;i<7;i++){
+                     if(lotes[i].pos == 1)
+                        if(lotes[i+1].pos == 1){
+
+                           printf("Nombre: %s",lotes[i+1].nombreprog);
+                           printf("Tiempo: %d\n",lotes[i+1].tiempo);
+                        }
+                  }
+                   Sleep(1000);
+          }
+          else if(temp>=8 && temp<12){
+              printf("es el temporal 3 %d\n",temp);
+                  for(i=8;i<11;i++){
+                     if(lotes[i].pos == 1)
+                        if(lotes[i+1].pos == 1){
+
+                           printf("Nombre: %s",lotes[i+1].nombreprog);
+                           printf("Tiempo: %d\n",lotes[i+1].tiempo);
+                        }
+                  }
+                   Sleep(1000);
+          }
+          else if(temp>=12 && temp<16){
+                  for( i=12;i<15;i++){
+                     if(lotes[i].pos == 1)
+                        if(lotes[i+1].pos == 1){
+
+                           printf("Nombre: %s",lotes[i+1].nombreprog);
+                           printf("Tiempo: %d\n",lotes[i+1].tiempo);
+                        }
+                  }
+                   Sleep(1000);
+          }
+
+          //Contador Global(RELOJ)
+
+          printf("reloj: %d",reloj);
+          fflush(stdout);
+          Sleep(1000);
+
+          if(reloj == tiempo_total)
+             getch();
+
+          system("cls");
+          reloj++;
+          x++;
+    }
+
+    return 0;
+}
+
+
+
